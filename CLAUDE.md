@@ -1,0 +1,1 @@
+/Users/admin/Projects/foamworks/AGENTS.md
