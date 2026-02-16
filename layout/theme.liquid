@@ -309,6 +309,12 @@
 
     {% sections 'header-group' %}
 
+    {%- comment -%}
+      Custom Figma HEADER
+    {%- endcomment -%}
+
+    {% section 'header-custom' %}
+    
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
