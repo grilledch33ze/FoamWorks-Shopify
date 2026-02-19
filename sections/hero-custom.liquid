@@ -1,0 +1,201 @@
+<!-- DEBUG: Hero Image = {{ section.settings.hero_image }} -->
+
+<div class="hero-header-section">
+  <div class="hero-section">
+    <div class="container">
+      <div class="content">
+        <div class="heading-and">
+          <h1 class="heading">{{ section.settings.heading }}</h1>
+        </div>
+        <div class="CTA-button">
+          <a href="{{ section.settings.button_link }}" class="text-wrapper">
+            <div class="text-2">{{ section.settings.button_text }}</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero-header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: rgba(209, 233, 255, 1);
+  }
+
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 64px;
+    padding: 320px 0px 40px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+    z-index: 0;
+    {% if section.settings.hero_image != blank %}
+      background-image: url('{{ section.settings.hero_image | image_url: width: 2000 }}');
+    {% else %}
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    {% endif %}
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  /* Dark overlay for text readability */
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+    z-index: 0;
+  }
+
+  .container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 0px 32px;
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 1;
+  }
+
+  .content {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .heading-and {
+    display: flex;
+    flex-direction: column;
+    width: 1024px;
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .heading {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 48px; /* Reduced from 60px */
+  letter-spacing: -1px;
+  line-height: 56px; /* Reduced from 72px */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+  .CTA-button {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: rgba(23, 92, 211, 1);
+    border-radius: 8px;
+  }
+
+  .text-wrapper {
+    padding: 12px 20px;
+    background-color: rgba(23, 92, 211, 1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    flex: 0 0 auto;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .text-wrapper:hover {
+    background-color: rgba(21, 112, 239, 1);
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 8px 0px rgba(10, 13, 18, 0.15);
+  }
+
+  .text-2 {
+    color: #ffffff;
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: "Inter", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 200px 0px 40px;
+    }
+    
+    .heading {
+      font-size: 36px;
+      line-height: 44px;
+    }
+    
+    .heading-and {
+      width: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Custom",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium Quality, Delivered Fast"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Products Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Custom"
+    }
+  ]
+}
+{% endschema %}

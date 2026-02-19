@@ -1,0 +1,329 @@
+<div class="features-section">
+  <div class="content-wrapper">
+    <div class="heading-and-wrapper">
+      <div class="heading-and-2">
+        <div class="div-2">
+          <div class="subheading">{{ section.settings.subtitle }}</div>
+          <h2 class="heading-2">{{ section.settings.title }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-wrapper">
+    <div class="container-2">
+      <div class="content-2">
+        {% if section.settings.collection != blank %}
+          {% for product in collections[section.settings.collection].products limit: 4 %}
+            <div class="product-card">
+              <div class="image" style="background-image: url('{{ product.featured_image | image_url: width: 400 }}');"></div>
+              <div class="content-3">
+                <div class="heading-and-text-wrapper">
+                  <div class="div-2">
+                    <div class="heading-and-icon">
+                      <h3 class="heading-3">{{ product.title }}</h3>
+                    </div>
+                    <div class="supporting-text">{{ product.type }}</div>
+                    <div class="subheading-2">{{ product.price | money }}</div>
+                  </div>
+                </div>
+                <form action="/cart/add" method="post">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" class="button-base-wrapper">
+                    <div class="button-base-2">
+                      <div class="text-3">Add To Cart</div>
+                    </div>
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p style="text-align: center; width: 100%; padding: 40px;">Please select a collection in theme settings.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .features-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 64px;
+    padding: 96px 0px;
+    position: relative;
+    background-color: #ffffff;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 1280px;
+    max-width: 100%;
+    align-items: center; /* CENTERED */
+    gap: 20px;
+    padding: 0px 32px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .heading-and-wrapper {
+    display: flex;
+    align-items: center; /* CENTERED */
+    justify-content: center; /* CENTERED */
+    gap: 32px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .heading-and-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* CENTERED */
+    gap: 12px;
+    position: relative;
+    flex: 1;
+  }
+
+  .div-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* CENTERED */
+    gap: 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .subheading {
+    position: relative;
+    align-self: stretch;
+    margin-top: -1px;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: rgba(23, 92, 211, 1);
+    font-size: 16px;
+    letter-spacing: 0px;
+    line-height: 24px;
+    text-align: center; /* CENTERED */
+  }
+
+  .heading-2 {
+    position: relative;
+    align-self: stretch;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: rgba(16, 24, 40, 1);
+    font-size: 36px;
+    letter-spacing: -0.72px;
+    line-height: 44px;
+    text-align: center; /* CENTERED */
+  }
+
+  .container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .container-2 {
+    display: flex;
+    flex-direction: column;
+    width: 1280px;
+    max-width: 100%;
+    align-items: center;
+    gap: 64px;
+    padding: 0px 32px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .content-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    flex: 0 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(213, 215, 218, 1);
+    background-color: #ffffff;
+  }
+
+  .image {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(245, 245, 245, 1);
+  }
+
+  .content-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .heading-and-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .heading-and-icon {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .heading-3 {
+    position: relative;
+    flex: 1;
+    margin-top: -1px;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: rgba(16, 24, 40, 1);
+    font-size: 20px;
+    letter-spacing: 0px;
+    line-height: 30px;
+  }
+
+  .supporting-text {
+    position: relative;
+    align-self: stretch;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: rgba(83, 88, 98, 1);
+    font-size: 16px;
+    letter-spacing: 0px;
+    line-height: 24px;
+  }
+
+  .subheading-2 {
+    position: relative;
+    align-self: stretch;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: rgba(16, 24, 40, 1);
+    font-size: 24px;
+    letter-spacing: 0px;
+    line-height: 32px;
+  }
+
+  .button-base-wrapper {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: flex-start;
+    position: relative;
+    flex: 0 0 auto;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .button-base-2 {
+    all: unset;
+    box-sizing: border-box;
+    padding: 10px 18px;
+    background-color: rgba(23, 92, 211, 1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    display: flex;
+    position: relative;
+    flex: 1;
+  }
+
+  .button-base-2:hover {
+    background-color: rgba(21, 112, 239, 1);
+  }
+
+  .text-3 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 0px;
+    line-height: 24px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .content-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bestsellers Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Featured Products"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Bestsellers"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bestsellers Custom"
+    }
+  ]
+}
+{% endschema %}
