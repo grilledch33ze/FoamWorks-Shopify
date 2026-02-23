@@ -1,0 +1,889 @@
+<div class="products-section">
+  <!-- Breadcrumb Header -->
+  <div class="header-section">
+    <div class="container-header">
+      <div class="content-header">
+        <div class="heading-and">
+          <div class="breadcrumb-heading">
+            <div class="subheading">Home &gt; Products</div>
+            <h1 class="heading">{{ collection.title }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Section: Sidebar + Products -->
+  <div class="section">
+    <div class="container-2">
+      
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar-navigation">
+        <div class="content-2">
+          <div class="nav">
+            <!-- Filters Header -->
+            <header class="header">
+              <div class="text-wrapper">Filters</div>
+            </header>
+
+            <!-- Search -->
+            <div class="search">
+              <div class="select">
+                <div class="select-input-base">
+                  <div class="input-with-label">
+                    <div class="input">
+                      <div class="content-3">
+                        <input class="text" placeholder="Search" type="text" id="product-search">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Filters -->
+            <div class="navigation">
+              <!-- Category Filter -->
+              <div class="div-2">
+                <div class="nav-item-base">
+                  <div class="content-4">
+                    <div class="text-2">Category</div>
+                  </div>
+                </div>
+                <div class="menu">
+                  {% for collection_item in collections %}
+                    {% if collection_item.products.size > 0 %}
+                      <div class="content-wrapper">
+                        <div class="content-5">
+                          <div class="checkbox">
+                            <div class="checkbox-base-2"></div>
+                          </div>
+                          <a href="{{ collection_item.url }}" class="text-2">{{ collection_item.title }}</a>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Products Content -->
+      <div class="content-6">
+        <!-- Sort Button -->
+        <div class="button-base">
+          <div class="text-4">Sort By</div>
+        </div>
+
+        <!-- Products Grid -->
+        {% paginate collection.products by 9 %}
+          <div class="products-grid">
+            {% for product in collection.products %}
+              <div class="product-card">
+                <a href="{{ product.url }}" class="image-link">
+                  {% if product.featured_image %}
+                    <div class="image" style="background-image: url('{{ product.featured_image | image_url: width: 400 }}');"></div>
+                  {% else %}
+                    <div class="image placeholder-img">
+                      <span>No Image</span>
+                    </div>
+                  {% endif %}
+                </a>
+                <div class="content-7">
+                  <div class="div-2">
+                    <div class="product-details">
+                      <div class="heading-and-icon">
+                        <h3 class="heading-2">{{ product.title }}</h3>
+                      </div>
+                      <div class="supporting-text">{{ product.type }}</div>
+                      <div class="subheading-2">{{ product.price | money }}</div>
+                    </div>
+                  </div>
+                  <form action="/cart/add" method="post">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="button">
+                      <div class="button-base-2">
+                        <div class="text-5">Add To Cart</div>
+                      </div>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Pagination -->
+          {% if paginate.pages > 1 %}
+            <div class="pagination">
+              <div class="pagination-button">
+                {% if paginate.previous %}
+                  <a href="{{ paginate.previous.url }}" class="pagination-button-2">
+                    <div class="text-6">Previous</div>
+                  </a>
+                {% endif %}
+
+                {% for part in paginate.parts %}
+                  {% if part.is_link %}
+                    <a href="{{ part.url }}" class="pagination-button-4">
+                      <div class="content-8">
+                        <div class="text-8">{{ part.title }}</div>
+                      </div>
+                    </a>
+                  {% else %}
+                    <div class="pagination-button-3">
+                      <div class="content-8">
+                        <div class="text-7">{{ part.title }}</div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+
+                {% if paginate.next %}
+                  <a href="{{ paginate.next.url }}" class="pagination-button-5">
+                    <div class="text-6">Next</div>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Import from your style.css - Products Section Styles */
+.products-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  width: 100%;
+  background: #fff;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1440px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 30px 0px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #f5f5f5;
+}
+
+.container-header {
+  display: flex;
+  flex-direction: column;
+  width: 1280px;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 0px 32px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.content-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.heading-and {
+  display: flex;
+  flex-direction: column;
+  width: 768px;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.breadcrumb-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  flex: 0 0 auto;
+  position: relative;
+  align-self: stretch;
+}
+
+.subheading {
+  position: relative;
+  align-self: stretch;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #175CD3;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 24px;
+}
+
+.heading {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 700;
+  color: #181D27;
+  font-size: 36px;
+  letter-spacing: -0.72px;
+  line-height: 44px;
+  position: relative;
+  align-self: stretch;
+  margin: 0;
+}
+
+/* Main Section Layout */
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 1340px;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0px 8px 48px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.container-2 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  padding: 0px 16px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+/* Sidebar */
+.sidebar-navigation {
+  display: inline-flex;
+  flex-direction: column;
+  min-height: 631px;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d5d7da;
+  position: sticky;
+  top: 100px;
+}
+
+.content-2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+  border-radius: 5px;
+  padding: 24px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: transparent;
+  border: none;
+}
+
+.text-wrapper {
+  position: relative;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 700;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 24px;
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.select {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+}
+
+.select-input-base {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+}
+
+.input-with-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d5d7da;
+  box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+}
+
+.content-3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.text {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 400;
+  color: #717680;
+  font-size: 16px;
+  line-height: 24px;
+  position: relative;
+  width: 100%;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.div-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.nav-item-base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.content-4 {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.text-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #414651;
+  font-size: 16px;
+  letter-spacing: 0px;
+  line-height: 24px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0px 0px 8px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.content-wrapper {
+  gap: 105px;
+  padding: 8px 12px;
+  width: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  background-color: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.content-wrapper:hover {
+  background-color: #f9fafb;
+}
+
+.content-5 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.checkbox-base-2 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #d5d7da;
+}
+
+/* Products Content */
+.content-6 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-end;
+  gap: 16px;
+  position: relative;
+}
+
+.button-base {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d5d7da;
+  box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+  cursor: pointer;
+}
+
+.text-4 {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #414651;
+  font-size: 14px;
+  line-height: 20px;
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px -2px rgba(10, 13, 18, 0.03), 0px 12px 16px -4px rgba(10, 13, 18, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.12);
+}
+
+.image-link {
+  width: 100%;
+  text-decoration: none;
+}
+
+.image {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.placeholder-img {
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-img span {
+  font-family: "Inter", sans-serif;
+  color: #999;
+}
+
+.content-7 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.heading-and-icon {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+}
+
+.heading-2 {
+  position: relative;
+  flex: 1;
+  margin: 0;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #181D27;
+  font-size: 20px;
+  letter-spacing: 0px;
+  line-height: 30px;
+}
+
+.supporting-text {
+  position: relative;
+  align-self: stretch;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 700;
+  color: #535862;
+  font-size: 14px;
+  letter-spacing: 0px;
+  line-height: 20px;
+}
+
+.subheading-2 {
+  position: relative;
+  align-self: stretch;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #175CD3;
+  font-size: 18px;
+  letter-spacing: 0px;
+  line-height: 20px;
+}
+
+.button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button-base-2 {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+  background-color: #1849A9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #7F56D9;
+  box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+  transition: background 0.2s;
+}
+
+.button-base-2:hover {
+  background-color: #1570EF;
+}
+
+.text-5 {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 24px;
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+}
+
+/* Pagination */
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px 16px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.pagination-button {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  flex: 0 0 auto;
+  box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pagination-button-2,
+.pagination-button-5 {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 8px;
+  padding: 10px 16px;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  overflow: hidden;
+  border: 1px solid #d5d7da;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pagination-button-2 {
+  border-radius: 8px 0px 0px 8px;
+}
+
+.pagination-button-5 {
+  border-radius: 0px 8px 8px 0px;
+}
+
+.text-6 {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 600;
+  color: #252B37;
+  font-size: 14px;
+  line-height: 20px;
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+}
+
+.pagination-button-3,
+.pagination-button-4 {
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-left: 1px solid #d5d7da;
+  border-right: 1px solid #d5d7da;
+  text-decoration: none;
+}
+
+.pagination-button-3 {
+  background-color: #fafafa;
+}
+
+.pagination-button-4 {
+  background-color: #ffffff;
+}
+
+.content-8 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 9px 8px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.text-7 {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 500;
+  color: #252B37;
+  font-size: 14px;
+  line-height: 20px;
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+}
+
+.text-8 {
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 500;
+  color: #414651;
+  font-size: 14px;
+  line-height: 20px;
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  letter-spacing: 0px;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar-navigation {
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-2 {
+    flex-direction: column;
+  }
+
+  .sidebar-navigation {
+    width: 100%;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Collection Page Custom",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection Page Custom"
+    }
+  ]
+}
+{% endschema %}
